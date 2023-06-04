@@ -32,6 +32,25 @@ let char_to_priority c =
     (Char.to_int c) - (Char.to_int 'A') + 27
 ;;
 
-let () = List.map (flatten (get_all_common lines)) ~f:(char_to_priority)
+let () = List.map (flatten (get_all_common lines)) ~f:char_to_priority
+|> List.fold ~init:0 ~f:Int.(+)
+|> printf "%d\n"
+;;
+
+let get_badge x y z =
+  let a = String.to_list x in
+  let b = String.to_list y in
+  let c = String.to_list z in
+  find_common (find_common (a, b), c)
+;;
+
+let rec get_all_badges lines =
+  match lines with
+  | [] -> []
+  | x :: y :: z :: t -> get_badge x y z :: get_all_badges t
+  | _ -> failwith "Invalid number of groups"
+;;
+
+let () = List.map (flatten (get_all_badges lines)) ~f:char_to_priority
 |> List.fold ~init:0 ~f:Int.(+)
 |> printf "%d\n"
