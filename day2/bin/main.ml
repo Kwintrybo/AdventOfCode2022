@@ -1,25 +1,29 @@
 open Core
 
-type choice = Rock | Paper | Scissors
+type choice = Rock | Paper | Scissors | Lose | Draw | Win
 
 let score_round round =
   match round with
-  | (Rock, Rock) -> 4
-  | (Rock, Paper) -> 8
-  | (Rock, Scissors) -> 3
-  | (Paper, Rock) -> 1
-  | (Paper, Paper) -> 5
-  | (Paper, Scissors) -> 9
-  | (Scissors, Rock) -> 7
-  | (Scissors, Paper) -> 2
-  | (Scissors, Scissors) -> 6
+  | (Rock, Draw) -> 4
+  | (Rock, Win) -> 8
+  | (Rock, Lose) -> 3
+  | (Paper, Lose) -> 1
+  | (Paper, Draw) -> 5
+  | (Paper, Win) -> 9
+  | (Scissors, Win) -> 7
+  | (Scissors, Lose) -> 2
+  | (Scissors, Draw) -> 6
+  | _ -> failwith "Invalid combination"
 ;;
 
 let map_to_choice letter =
   match letter with
-  | 'A' | 'X' -> Some Rock
-  | 'B' | 'Y' -> Some Paper
-  | 'C' | 'Z' -> Some Scissors
+  | 'A' -> Some Rock
+  | 'B' -> Some Paper
+  | 'C' -> Some Scissors
+  | 'X' -> Some Lose
+  | 'Y' -> Some Draw
+  | 'Z' -> Some Win
   | _ -> None
 ;;
 
